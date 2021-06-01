@@ -29,6 +29,7 @@
 // <summary></summary>
 // ***********************************************************************
 
+using ACBr.Net.DFe.Core;
 using ACBr.Net.NFSe.Configuracao;
 
 namespace ACBr.Net.NFSe.Providers
@@ -47,6 +48,16 @@ namespace ACBr.Net.NFSe.Providers
         #region Methods
 
         #region Protected Methods
+
+        protected override void AssinarEnviar(RetornoEnviar retornoWebservice)
+        {
+            retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "EnviarLoteRpsEnvio", "LoteRps", Certificado);
+        }
+
+        protected override void AssinarEnviarSincrono(RetornoEnviar retornoWebservice)
+        {
+            retornoWebservice.XmlEnvio = XmlSigning.AssinarXml(retornoWebservice.XmlEnvio, "EnviarLoteRpsSincronoEnvio", "LoteRps", Certificado);
+        }
 
         protected override IServiceClient GetClient(TipoUrl tipo)
         {

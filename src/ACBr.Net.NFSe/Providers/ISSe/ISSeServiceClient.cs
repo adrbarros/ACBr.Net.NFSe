@@ -164,9 +164,9 @@ namespace ACBr.Net.NFSe.Providers
 
         protected override string TratarRetorno(XDocument xmlDocument, string[] responseTag)
         {
-            var element = xmlDocument.ElementAnyNs(responseTag[0])?.ElementAnyNs("Fault");
+            var element = xmlDocument.ElementAnyNs("Fault");
             if (element == null)
-                return xmlDocument.ElementAnyNs(responseTag[0]).ElementAnyNs(responseTag[1]).ElementAnyNs("return").Value;
+                return xmlDocument.Root.ElementAnyNs("return")?.Value;
 
             var exMessage = $"{element.ElementAnyNs("faultcode").GetValue<string>()} - {element.ElementAnyNs("faultstring").GetValue<string>()}";
             throw new ACBrDFeCommunicationException(exMessage);
